@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.springframework.org/schema/beans" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://midpoint.example.com/xml/ns/custom-soap-1" name="ExampleSoapService" targetNamespace="http://www.springframework.org/schema/beans">
+  <wsdl:import location="ExampleSoapService.wsdl" namespace="http://midpoint.example.com/xml/ns/custom-soap-1">
+    </wsdl:import>
+  <wsdl:binding name="ExampleSoapServiceSoapBinding" type="ns1:ExampleSoapService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="searchUserByEmail">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchUserByEmail">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchUserByEmailResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="init">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="init">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="initResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="self">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="self">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="selfResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExampleSoapService">
+    <wsdl:port binding="tns:ExampleSoapServiceSoapBinding" name="ExampleSoapService">
+      <soap:address location="http://localhost:8080/midpoint/ws/soap/example-1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

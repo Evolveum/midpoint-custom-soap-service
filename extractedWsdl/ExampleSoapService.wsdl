@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://midpoint.example.com/xml/ns/custom-soap-1" name="ExampleSoapService" targetNamespace="http://midpoint.example.com/xml/ns/custom-soap-1">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://midpoint.example.com/xml/ns/custom-soap-1" elementFormDefault="unqualified" targetNamespace="http://midpoint.example.com/xml/ns/custom-soap-1" version="1.0">
+
+  <xs:element name="init" type="tns:init"/>
+
+  <xs:element name="initResponse" type="tns:initResponse"/>
+
+  <xs:element name="searchUserByEmail" type="tns:searchUserByEmail"/>
+
+  <xs:element name="searchUserByEmailResponse" type="tns:searchUserByEmailResponse"/>
+
+  <xs:element name="self" type="tns:self"/>
+
+  <xs:element name="selfResponse" type="tns:selfResponse"/>
+
+  <xs:complexType name="searchUserByEmail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:SearchUserByEmailRequestType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SearchUserByEmailRequestType">
+    <xs:sequence>
+      <xs:element name="email" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchUserByEmailResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="users" type="tns:SearchUserByEmailResponseType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SearchUserByEmailResponseType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="user" type="tns:CustomUserType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CustomUserType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="oid" type="xs:string"/>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element minOccurs="0" name="fullname" type="xs:string"/>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="init">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="initResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="self">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="selfResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="tns:CustomUserType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="self">
+    <wsdl:part element="ns1:self" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="selfResponse">
+    <wsdl:part element="ns1:selfResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="initResponse">
+    <wsdl:part element="ns1:initResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchUserByEmail">
+    <wsdl:part element="ns1:searchUserByEmail" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchUserByEmailResponse">
+    <wsdl:part element="ns1:searchUserByEmailResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="init">
+    <wsdl:part element="ns1:init" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ExampleSoapService">
+    <wsdl:operation name="searchUserByEmail">
+      <wsdl:input message="ns1:searchUserByEmail" name="searchUserByEmail">
+    </wsdl:input>
+      <wsdl:output message="ns1:searchUserByEmailResponse" name="searchUserByEmailResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="init">
+      <wsdl:input message="ns1:init" name="init">
+    </wsdl:input>
+      <wsdl:output message="ns1:initResponse" name="initResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="self">
+      <wsdl:input message="ns1:self" name="self">
+    </wsdl:input>
+      <wsdl:output message="ns1:selfResponse" name="selfResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
