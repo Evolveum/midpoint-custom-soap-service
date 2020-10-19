@@ -129,9 +129,21 @@ authentication] and also check *Pre-emptive auth*.
 
 == Technical note about midPoint schema types
 
-When using WSDL all the code is generated.
-With code-first approach it is tempting to use existing types and let CXF to do its best (or what) to generate the WSDL.
+[WARNING]
+Never reuse existing midPoint `*Type` classes in the custom SOAP service interface.
+That is don't use them as parameters or return types.
+It is safe to use them in the method body, of course.
+
+When using contract first (WSDL) approach all the code is generated for you and that's what is used in the service.
+
+With code first approach it is tempting to reuse existing types and let CXF to do its best (or what) to generate the WSDL.
 Good advice - *always write your types separate from midPoint types.*
 Especially midPoint "JAXB" `SomethingType` classes are not really JAXB compliant.
 Using those as input/output types is a guaranteed way to obscure errors.
+The service will not work and WSDL will not be generated on the fly.
 This example shows how to do it, you can even go with public fields if Sonar doesn't kill you for it.
+
+Service implementation should be the glue code that changes service interface types to various schema types and back.
+It is not necessary to create separate service interface (as demonstrated by this overlay),
+but extracting it can help with clear type separation.
+There should be no `midpoint` imports in the service interface file.
