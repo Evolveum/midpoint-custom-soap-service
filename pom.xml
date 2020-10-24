@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  ~ Copyright (c) 2014-2016 Evolveum
+  ~ Copyright (C) 2014-2020 Evolveum
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,19 +20,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>midpoint-custom-soap-code-first</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <artifactId>midpoint-custom-soap-service</artifactId>
+    <version>4.2</version>
     <packaging>war</packaging>
 
     <name>midPoint Custom SOAP Service Overlay (code-first)</name>
     <description>Example of a midPoint overlay project that implements a custom SOAP service with code-first approach.</description>
 
     <properties>
+        <midpoint.version>4.2</midpoint.version>
+
         <java.version>11</java.version>
         <project.source.version>${java.version}</project.source.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <midpoint.version>4.2-SNAPSHOT</midpoint.version>
         <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
 
         <jaxb.version>2.3.0.1</jaxb.version>
