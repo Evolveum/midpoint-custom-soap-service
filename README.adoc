@@ -56,18 +56,16 @@ If you made changes to the project, don't forget to `mvn clean package` it befor
 
 === Testing
 
-The service will be listening at http://localhost:8080/midpoint/ws/soap/example-1, to see WSDL use
-http://localhost:8080/midpoint/ws/soap/example-1?wsdl.
+The service will be listening at http://localhost:8080/midpoint/ws/soap/example-1,
+to see the WSDL use http://localhost:8080/midpoint/ws/soap/example-1?wsdl.
+Both WSDL URL and http://localhost:8080/midpoint/ws/soap/[list of services] can be accessed via browser.
 
 [WARNING]
 ====
-Do not use browser to access these URLs.
-There seems to be a bug in basic authentication in midPoint that asks for credentials forever.
-Using curl with "preemptive authentication" works fine.
-
+Access to WSDL is authenticated as well, which isn't practical.
 You may ask: "Can't we just ignore the path with WSDL?"
-The answer is no, because current ignore path matches paths without `?` part so there is no way
-to distinguish WSDL requests from SOAP requests.
+The answer is no, because current ignore path mechanism matches paths without `?` part
+so there is no way to distinguish WSDL requests from SOAP requests.
 ====
 
 You can test the service with this command:
@@ -111,24 +109,16 @@ See https://github.com/Evolveum/midpoint-overlay-example[midpoint-overlay-exampl
 === Using SoapUI
 
 SoapUI or similar tool makes it much easier to test SOAP web services as it is rather hard to construct the whole request XML manually.
-// The troubles here can also be exacerbated by MID-6654, recheck after the fix.
-But because of authentication it is not possible to just point to the WSDL (perhaps other tools can do it).
-We need offline WSDL files - for convenience these are provided under `extractedWsdl` directory.
+When you point SoapUI to the WSDL it will ask for authentication twice as there is additional request to an included part.
 
-To get offline WSDL files after changes to the service, run these commands (with overlay running, of course):
-
-----
-curl --user "administrator:5ecr3t" http://localhost:8080/midpoint/ws/soap/example-1?wsdl |
-  sed -e 's%http://localhost:8080/midpoint/ws/soap/example-1?wsdl=ExampleSoapService.wsdl%ExampleSoapService.wsdl%' \
-  > example.wsdl
-curl --user "administrator:5ecr3t" http://localhost:8080/midpoint/ws/soap/example-1?wsdl=ExampleSoapService.wsdl > ExampleSoapService.wsdl
-----
-
-Using `sed` will replace URL to imported second file with the local path to it.
-
-Point SoapUI to the `example.wsdl` file and all should be fine.
+After this it's easy to try
 Don't forget to https://www.soapui.org/docs/soap-and-wsdl/authenticating-soap-requests/[add basic
-authentication] and also check *Pre-emptive auth*.
+authentication to the requests] and also check *Pre-emptive auth*.
+
+[NOTE]
+Released version 4.2 had a bug (MID-6654) preventing successful browser and SoapUI authentication.
+Offline WSDL files were needed to configure SoapUI.
+See https://github.com/Evolveum/midpoint-custom-soap-service/tree/v4.2[README from 4.2 branch] for details.
 
 == Technical note about midPoint schema types
 
