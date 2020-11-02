@@ -64,7 +64,9 @@ public class ExampleSoapService {
     @Autowired private TaskManager taskManager;
     @Autowired private SecurityHelper securityHelper;
 
+    // not part of the WS, as public method must be excluded explicitly
     @PostConstruct
+    @WebMethod(exclude = true)
     public void init() {
         LOGGER.info("SOAP service initialized");
     }
