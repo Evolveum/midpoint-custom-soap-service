@@ -49,8 +49,7 @@ import com.evolveum.midpoint.xml.ns._public.common.common_3.FocusType;
 import com.evolveum.midpoint.xml.ns._public.common.common_3.UserType;
 
 @SuppressWarnings("unused")
-@WebService(targetNamespace =
-        "http://midpoint.example.com/xml/ns/custom-soap-1")
+@WebService(targetNamespace = "https://midpoint.example.com/xml/ns/custom-soap-1")
 public class ExampleSoapService {
 
     private static final Trace LOGGER = TraceManager.getTrace(ExampleSoapService.class);

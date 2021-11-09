@@ -50,10 +50,6 @@ java -jar target/midpoint.war
 To run in an IDE choose `com.evolveum.midpoint.web.boot.MidPointSpringApplication` as the main class.
 Be sure to add "provided" scope to the classpath in the run configuration.
 
-[WARNING]
-If `midpoint.home` does not exist *run as JAR first*, not IDE, otherwise `initial-objects` loading fails.
-If you made changes to the project, don't forget to `mvn clean package` it before running the JAR.
-
 === Testing
 
 The service will be listening at http://localhost:8080/midpoint/ws/soap/example-1,
@@ -74,7 +70,7 @@ You can test the service with this command:
 curl --user "administrator:5ecr3t" -d @- \
   -H "Content-Type: text/xml;charset=UTF-8" \
   http://localhost:8080/midpoint/ws/soap/example-1 <<< '
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://midpoint.example.com/xml/ns/custom-soap-1">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="https://midpoint.example.com/xml/ns/custom-soap-1">
    <soapenv:Header/>
    <soapenv:Body>
       <cus:self/>
@@ -89,7 +85,7 @@ There is also search by user email (just like in https://github.com/Evolveum/mid
 curl --user "administrator:5ecr3t" -d @- \
   -H "Content-Type: text/xml;charset=UTF-8" \
   http://localhost:8080/midpoint/ws/soap/example-1 <<< '
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://midpoint.example.com/xml/ns/custom-soap-1">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="https://midpoint.example.com/xml/ns/custom-soap-1">
    <soapenv:Header/>
    <soapenv:Body>
       <cus:searchUserByEmail>
@@ -111,7 +107,6 @@ See https://github.com/Evolveum/midpoint-overlay-example[midpoint-overlay-exampl
 SoapUI or similar tool makes it much easier to test SOAP web services as it is rather hard to construct the whole request XML manually.
 When you point SoapUI to the WSDL it will ask for authentication twice as there is additional request to an included part.
 
-After this it's easy to try
 Don't forget to https://www.soapui.org/docs/soap-and-wsdl/authenticating-soap-requests/[add basic
 authentication to the requests] and also check *Pre-emptive auth*.
 
@@ -124,7 +119,7 @@ See https://github.com/Evolveum/midpoint-custom-soap-service/tree/v4.2[README fr
 
 [WARNING]
 Never reuse existing midPoint `*Type` classes in the custom SOAP service interface.
-That is don't use them as parameters or return types.
+That is, do not use them as parameters or return types.
 It is safe to use them in the method body, of course.
 
 When using contract first (WSDL) approach all the code is generated for you and that's what is used in the service.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2020 Evolveum
+ * Copyright (C) 2010-2021 Evolveum
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public class CxfConfig {
         ServletRegistrationBean<CXFServlet> registration = new ServletRegistrationBean<>();
         registration.setServlet(new CXFServlet());
         registration.setLoadOnStartup(1);
-        // Choose mapping that does NOT collide with other paths of midPoint (REST, UI).
+        // Choose a mapping that does NOT collide with other paths of midPoint (REST, UI).
         // CXF servlet takes over this mapping completely and anything it overshadows stops working.
         // This is under /ws, so it will be treated as "REST" channel and we will use basic auth.
         registration.addUrlMappings("/ws/soap/*");

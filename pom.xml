@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  ~ Copyright (C) 2014-2020 Evolveum
+  ~ Copyright (C) 2014-2021 Evolveum
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,27 +16,27 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
     <artifactId>midpoint-custom-soap-service</artifactId>
-    <version>4.3-SNAPSHOT</version>
+    <version>4.4-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>midPoint Custom SOAP Service Overlay (code-first)</name>
     <description>Example of a midPoint overlay project that implements a custom SOAP service with code-first approach.</description>
 
     <properties>
-        <midpoint.version>4.3</midpoint.version>
+        <midpoint.version>4.4-SNAPSHOT</midpoint.version>
 
         <java.version>11</java.version>
         <project.source.version>${java.version}</project.source.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.boot.version>2.4.3</spring.boot.version>
+        <spring.boot.version>2.5.2</spring.boot.version>
 
-        <cxf.version>3.3.1</cxf.version>
+        <cxf.version>3.4.2</cxf.version>
     </properties>
 
     <dependencyManagement>
@@ -172,14 +172,6 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.3</version>
                 <configuration>
-                    <!--
-                    <overlays>
-                        <overlay>
-                            <groupId>com.evolveum.midpoint.gui</groupId>
-                            <artifactId>admin-gui</artifactId>
-                        </overlay>
-                    </overlays>
-                    -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>
                         WEB-INF/lib/admin-gui-*-classes.jar
@@ -196,6 +188,7 @@
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
+                            <layoutFactory implementation="com.evolveum.midpoint.tools.layout.MidPointWarLayoutFactory"/>
                             <excludes>
                                 <!-- GUI is not included as JAR but as classes, just like in original WAR. -->
                                 <exclude>
@@ -206,6 +199,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.evolveum.midpoint.tools</groupId>
+                        <artifactId>midpoint-boot-layout</artifactId>
+                        <version>${midpoint.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
