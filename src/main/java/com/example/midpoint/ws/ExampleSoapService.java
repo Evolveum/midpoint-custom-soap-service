@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2020 Evolveum
+ * Copyright (C) 2010-2021 Evolveum
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ import com.evolveum.midpoint.util.logging.TraceManager;
 import com.evolveum.midpoint.xml.ns._public.common.common_3.FocusType;
 import com.evolveum.midpoint.xml.ns._public.common.common_3.UserType;
 
+@SuppressWarnings("unused")
 @WebService(targetNamespace =
         "http://midpoint.example.com/xml/ns/custom-soap-1")
 public class ExampleSoapService {
@@ -79,7 +80,7 @@ public class ExampleSoapService {
             FocusType loggedInUser = SecurityUtil.getPrincipal().getFocus();
             System.out.println("loggedInUser = " + loggedInUser);
             UserType user = modelService.getObject(
-                    UserType.class, loggedInUser.getOid(), null, task, task.getResult())
+                            UserType.class, loggedInUser.getOid(), null, task, task.getResult())
                     .asObjectable();
             CustomUser customUser = createCustomUser(user);
             System.out.println("Going to return " + customUser);
@@ -149,6 +150,6 @@ public class ExampleSoapService {
         task.getResult().computeStatus();
         ConnectionEnvironment connEnv = ConnectionEnvironment.create(CHANNEL_SOAP_EXAMPLE_URI);
         connEnv.setSessionIdOverride(task.getTaskIdentifier());
-        securityHelper.auditLogout(connEnv, task);
+        securityHelper.auditLogout(connEnv, task, task.getResult());
     }
 }
