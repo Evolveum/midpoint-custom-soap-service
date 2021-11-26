@@ -21,14 +21,14 @@
 
     <groupId>com.example</groupId>
     <artifactId>midpoint-custom-soap-service</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.4</version>
     <packaging>war</packaging>
 
     <name>midPoint Custom SOAP Service Overlay (code-first)</name>
     <description>Example of a midPoint overlay project that implements a custom SOAP service with code-first approach.</description>
 
     <properties>
-        <midpoint.version>4.4-SNAPSHOT</midpoint.version>
+        <midpoint.version>${project.version}</midpoint.version>
 
         <java.version>11</java.version>
         <project.source.version>${java.version}</project.source.version>
