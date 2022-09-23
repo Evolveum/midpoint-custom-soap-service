@@ -110,11 +110,6 @@ When you point SoapUI to the WSDL it will ask for authentication twice as there 
 Don't forget to https://www.soapui.org/docs/soap-and-wsdl/authenticating-soap-requests/[add basic
 authentication to the requests] and also check *Pre-emptive auth*.
 
-[NOTE]
-Released version 4.2 had a bug (MID-6654) preventing successful browser and SoapUI authentication.
-Offline WSDL files were needed to configure SoapUI.
-See https://github.com/Evolveum/midpoint-custom-soap-service/tree/v4.2[README from 4.2 branch] for details.
-
 == Technical note about midPoint schema types
 
 [WARNING]

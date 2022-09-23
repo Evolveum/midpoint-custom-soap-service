@@ -44,7 +44,6 @@
     </properties>
 
     <dependencies>
-        <!-- These two admin-gui deps should bring everything necessary from midPoint -->
         <dependency>
             <groupId>com.evolveum.midpoint.gui</groupId>
             <artifactId>admin-gui</artifactId>
@@ -106,7 +105,8 @@
                 <filtering>false</filtering>
                 <directory>src/main/resources</directory>
             </resource>
-            <!-- We want the following stuff filtered (properties replaced by Maven during build). -->
+            <!-- We want the following stuff filtered (properties replaced by Maven during build).
+            But there is no banner.txt in this example, so we can skip this.
             <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
@@ -114,10 +114,11 @@
                     <include>banner.txt</include>
                 </includes>
             </resource>
+            -->
             <!--
             This "compiles" HTML files (or any other non-java/properties) to the classpath as well.
             This is Wicket specific, where HTML templates are typically right next to the Java files.
-            -->
+            There is no Wicket/GUI stuff in this overlay example, so we can skip it.
             <resource>
                 <filtering>false</filtering>
                 <directory>src/main/java</directory>
@@ -126,12 +127,12 @@
                     <exclude>**/*.properties</exclude>
                 </excludes>
             </resource>
+            -->
         </resources>
         <plugins>
             <!--
             Initializes ${git.branch} - can be skipped if it's not used in overlay banner.
             About in midPoint will still use the right information from metadata inside system-init.jar.
-            -->
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -147,6 +148,7 @@
                     <offline>true</offline>
                 </configuration>
             </plugin>
+            -->
             <!--
             gitdescribe-maven-plugin that initializes ${git.describe} works automatically because of the parent POM.
             -->
