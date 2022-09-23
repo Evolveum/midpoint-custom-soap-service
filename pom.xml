@@ -19,63 +19,36 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>midpoint</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.6-SNAPSHOT</version>
+    </parent>
+
     <groupId>com.example</groupId>
     <artifactId>midpoint-custom-soap-service</artifactId>
     <version>4.6-SNAPSHOT</version>
-    <packaging>war</packaging>
 
     <name>midPoint Custom SOAP Service Overlay (code-first)</name>
     <description>Example of a midPoint overlay project that implements a custom SOAP service with code-first approach.</description>
 
     <properties>
-        <midpoint.version>${project.version}</midpoint.version>
+        <cxf.version>3.5.3</cxf.version>
 
-        <java.version>11</java.version>
-        <project.source.version>${java.version}</project.source.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Checkstyle file is not available in overlay, let's just disable it. -->
+        <checkstyle.skip>true</checkstyle.skip>
+        <!--<mdep.analyze.skip>true</mdep.analyze.skip>-->
 
-        <spring.boot.version>2.5.2</spring.boot.version>
-
-        <cxf.version>3.5.2</cxf.version>
+        <!-- No tests here, but midPoint parent would try to run some, we need to disable it. -->
+        <maven.test.skip>true</maven.test.skip>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <!-- Import dependency management from MidPoint -->
-                <groupId>com.evolveum.midpoint</groupId>
-                <artifactId>midpoint</artifactId>
-                <version>${midpoint.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <!-- Import dependency management from Spring Boot -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- These two admin-gui deps should bring everything necessary from midPoint -->
         <dependency>
             <groupId>com.evolveum.midpoint.gui</groupId>
             <artifactId>admin-gui</artifactId>
-            <version>${midpoint.version}</version>
-            <type>war</type>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.evolveum.midpoint.gui</groupId>
-            <artifactId>admin-gui</artifactId>
-            <version>${midpoint.version}</version>
-            <type>jar</type>
-            <classifier>classes</classifier>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- CXF/JAX-WS deps not in midPoint anymore -->
@@ -95,20 +68,6 @@
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
             <version>2.3.1</version>
-        </dependency>
-
-        <!--
-        Necessary, otherwise some JARs are missing in lib-provided.
-        -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-annotations-api</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -140,32 +99,26 @@
     <build>
         <finalName>midpoint</finalName>
         <resources>
+            <!--
+            By default, we want everything unfiltered, e.g. additional object XML and app-config YAML.
+            -->
             <resource>
                 <filtering>false</filtering>
                 <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/org.identityconnectors.common.logging</exclude>
-                </excludes>
             </resource>
-            <!-- LOCALIZATION -->
+            <!-- We want the following stuff filtered (properties replaced by Maven during build). -->
             <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>localization/Midpoint*.properties</include>
                     <include>banner.txt</include>
                 </includes>
             </resource>
-            <!--  ICF LOGGING CONFIGURATION -->
+            <!--
+            This "compiles" HTML files (or any other non-java/properties) to the classpath as well.
+            This is Wicket specific, where HTML templates are typically right next to the Java files.
+            -->
             <resource>
-                <targetPath>../midpoint/META-INF/services</targetPath>
-                <filtering>false</filtering>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/org.identityconnectors.common.logging</include>
-                </includes>
-            </resource>
-            <resource> <!-- We need this to include html files from source tree -->
                 <filtering>false</filtering>
                 <directory>src/main/java</directory>
                 <excludes>
@@ -173,53 +126,44 @@
                     <exclude>**/*.properties</exclude>
                 </excludes>
             </resource>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
         </resources>
         <plugins>
+            <!--
+            Initializes ${git.branch} - can be skipped if it's not used in overlay banner.
+            About in midPoint will still use the right information from metadata inside system-init.jar.
+            -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <verbose>false</verbose>
+                    <offline>true</offline>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.3</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <packagingExcludes>
-                        WEB-INF/lib/admin-gui-*-classes.jar
-                    </packagingExcludes>
-                </configuration>
-            </plugin>
+            <!--
+            gitdescribe-maven-plugin that initializes ${git.describe} works automatically because of the parent POM.
+            -->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
+                <configuration>
+                    <mainClass>com.evolveum.midpoint.web.boot.MidPointSpringApplication</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
-                            <layoutFactory implementation="com.evolveum.midpoint.tools.layout.MidPointWarLayoutFactory"/>
-                            <excludes>
-                                <!-- GUI is not included as JAR but as classes, just like in original WAR. -->
-                                <exclude>
-                                    <groupId>com.evolveum.midpoint.gui</groupId>
-                                    <artifactId>admin-gui</artifactId>
-                                </exclude>
-                            </excludes>
+                            <layoutFactory implementation="com.evolveum.midpoint.launcher.MidPointJarLayoutFactory"/>
                         </configuration>
                     </execution>
                 </executions>
@@ -227,7 +171,7 @@
                     <dependency>
                         <groupId>com.evolveum.midpoint.tools</groupId>
                         <artifactId>midpoint-boot-layout</artifactId>
-                        <version>${midpoint.version}</version>
+                        <version>${project.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

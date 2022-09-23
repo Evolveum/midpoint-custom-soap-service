@@ -12,7 +12,7 @@ endif::[]
 
 toc::[]
 
-Example of a midPoint WAR overlay project that implements a custom SOAP web service.
+Example of a midPoint overlay project that implements a custom SOAP web service.
 Head of the master normally follows the current development version of midPoint.
 See https://github.com/Evolveum/midpoint-custom-soap-service/tree/v4.4[tag v4.4] for the last stable version.
 
@@ -39,12 +39,12 @@ To build the example run:
 mvn package
 ----
 
-The final `midpoint.war` will be built in `target`.
+The final `midpoint.jar` will be built in `target`.
 
-You can deploy the WAR to the Tomcat or preferably run it directly if `java` is on the path:
+You can run the resulting JAR if `java` is on the path:
 
 ----
-java -jar target/midpoint.war
+java -jar target/midpoint.jar
 ----
 
 To run in an IDE choose `com.evolveum.midpoint.web.boot.MidPointSpringApplication` as the main class.
