@@ -19,12 +19,12 @@ import static com.evolveum.midpoint.schema.constants.SchemaConstants.NS_CHANNEL;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.jws.WebMethod;
-import javax.jws.WebResult;
-import javax.jws.WebService;
 import javax.xml.namespace.QName;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
 import org.apache.commons.lang3.Validate;
 import org.apache.cxf.interceptor.Fault;
 import org.jetbrains.annotations.NotNull;

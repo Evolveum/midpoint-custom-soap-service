@@ -90,7 +90,7 @@ curl --user "administrator:5ecr3t" -d @- \
    <soapenv:Body>
       <cus:searchUserByEmail>
          <arg0>
-            <email>jack@caribbean.com</email>
+            <cus:email>jack@caribbean.com</cus:email>
          </arg0>
       </cus:searchUserByEmail>
    </soapenv:Body>
