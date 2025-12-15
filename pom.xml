@@ -22,12 +22,12 @@
     <parent>
         <artifactId>midpoint</artifactId>
         <groupId>com.evolveum.midpoint</groupId>
-        <version>4.10-SNAPSHOT</version>
+        <version>4.11-SNAPSHOT</version>
     </parent>
 
     <groupId>com.example</groupId>
     <artifactId>midpoint-custom-soap-service</artifactId>
-    <version>4.10-SNAPSHOT</version>
+    <version>4.11-SNAPSHOT</version>
 
     <name>midPoint Custom SOAP Service Overlay (code-first)</name>
     <description>Example of a midPoint overlay project that implements a custom SOAP service with code-first approach.</description>
